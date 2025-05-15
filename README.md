@@ -1,16 +1,14 @@
-# mbank_test_calendar
+# Calendar App
 
-A new Flutter project.
+Простое календарное приложение с функционалом выбора одной даты либо диапазоном дат для получения событий в выбранные дни.
 
-## Getting Started
+## Функциональность
 
-This project is a starting point for a Flutter application.
+- Просмотр календаря по месяцам
+- Возможность переключения между режимами выбора дат
 
-A few resources to get you started if this is your first Flutter project:
+## Технологии
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter/Dart
+- Clean Architecture,fluuter_bloc,dio,freezed,dartz,intl,get_it,table_calendar
+- API интеграции
