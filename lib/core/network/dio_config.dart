@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:mbank_test_calendar/core/constants/app_constants.dart';
 
 class DioConfig {
   static Dio create() {
     final dio = Dio(
       BaseOptions(
-        baseUrl: 'https://test-task-app-alpha.vercel.app',
+        baseUrl: AppConstants.baseUrl,
         receiveTimeout: const Duration(milliseconds: 60000),
         connectTimeout: const Duration(milliseconds: 60000),
         sendTimeout: const Duration(milliseconds: 60000),

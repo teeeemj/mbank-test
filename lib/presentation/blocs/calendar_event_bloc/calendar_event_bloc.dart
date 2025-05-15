@@ -23,7 +23,7 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
     Emitter<CalendarEventState> emit,
   ) async {
     emit(const CalendarEventState.loading());
-    final params = EventParams(startDate: _startDate, endDate: _endDate);
+    final params = EventParams(startDate: event.date);
     final result = await getEvents(params);
     result.fold(
       (failure) => emit(CalendarEventState.error(failure.message)),

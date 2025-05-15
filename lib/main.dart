@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mbank_test_calendar/presentation/bloc/calendar_event_bloc.dart';
+import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import 'core/di/service_locator.dart' as di;
 import 'presentation/pages/calendar_page.dart';
 

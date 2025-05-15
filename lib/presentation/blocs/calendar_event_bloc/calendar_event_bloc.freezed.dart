@@ -19,19 +19,19 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CalendarEventEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getEvents,
+    required TResult Function(DateTime date) getEvents,
     required TResult Function(DateTime startDate, DateTime? endDate)
     getRangeSelectedEvents,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getEvents,
+    TResult? Function(DateTime date)? getEvents,
     TResult? Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getEvents,
+    TResult Function(DateTime date)? getEvents,
     TResult Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
     required TResult orElse(),
@@ -83,6 +83,8 @@ abstract class _$$GetEventsImplCopyWith<$Res> {
     _$GetEventsImpl value,
     $Res Function(_$GetEventsImpl) then,
   ) = __$$GetEventsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({DateTime date});
 }
 
 /// @nodoc
@@ -96,57 +98,83 @@ class __$$GetEventsImplCopyWithImpl<$Res>
 
   /// Create a copy of CalendarEventEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? date = null}) {
+    return _then(
+      _$GetEventsImpl(
+        date:
+            null == date
+                ? _value.date
+                : date // ignore: cast_nullable_to_non_nullable
+                    as DateTime,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
 class _$GetEventsImpl implements _GetEvents {
-  const _$GetEventsImpl();
+  const _$GetEventsImpl({required this.date});
+
+  @override
+  final DateTime date;
 
   @override
   String toString() {
-    return 'CalendarEventEvent.getEvents()';
+    return 'CalendarEventEvent.getEvents(date: $date)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$GetEventsImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$GetEventsImpl &&
+            (identical(other.date, date) || other.date == date));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, date);
+
+  /// Create a copy of CalendarEventEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetEventsImplCopyWith<_$GetEventsImpl> get copyWith =>
+      __$$GetEventsImplCopyWithImpl<_$GetEventsImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getEvents,
+    required TResult Function(DateTime date) getEvents,
     required TResult Function(DateTime startDate, DateTime? endDate)
     getRangeSelectedEvents,
   }) {
-    return getEvents();
+    return getEvents(date);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getEvents,
+    TResult? Function(DateTime date)? getEvents,
     TResult? Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
   }) {
-    return getEvents?.call();
+    return getEvents?.call(date);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getEvents,
+    TResult Function(DateTime date)? getEvents,
     TResult Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
     required TResult orElse(),
   }) {
     if (getEvents != null) {
-      return getEvents();
+      return getEvents(date);
     }
     return orElse();
   }
@@ -185,7 +213,15 @@ class _$GetEventsImpl implements _GetEvents {
 }
 
 abstract class _GetEvents implements CalendarEventEvent {
-  const factory _GetEvents() = _$GetEventsImpl;
+  const factory _GetEvents({required final DateTime date}) = _$GetEventsImpl;
+
+  DateTime get date;
+
+  /// Create a copy of CalendarEventEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetEventsImplCopyWith<_$GetEventsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -270,7 +306,7 @@ class _$GetRangeSelectedEventsImpl implements _GetRangeSelectedEvents {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() getEvents,
+    required TResult Function(DateTime date) getEvents,
     required TResult Function(DateTime startDate, DateTime? endDate)
     getRangeSelectedEvents,
   }) {
@@ -280,7 +316,7 @@ class _$GetRangeSelectedEventsImpl implements _GetRangeSelectedEvents {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? getEvents,
+    TResult? Function(DateTime date)? getEvents,
     TResult? Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
   }) {
@@ -290,7 +326,7 @@ class _$GetRangeSelectedEventsImpl implements _GetRangeSelectedEvents {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? getEvents,
+    TResult Function(DateTime date)? getEvents,
     TResult Function(DateTime startDate, DateTime? endDate)?
     getRangeSelectedEvents,
     required TResult orElse(),

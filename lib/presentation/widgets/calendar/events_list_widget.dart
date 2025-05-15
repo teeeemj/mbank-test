@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventsListWidget extends StatelessWidget {
   final List<dynamic> events;
@@ -28,9 +29,7 @@ class EventsListWidget extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Date: ${event.date.day}/${event.date.month}/${event.date.year}',
-                ),
+                Text('Date: ${DateFormat('dd.MM.yyyy').format(event.date)}'),
                 Text(event.description),
               ],
             ),

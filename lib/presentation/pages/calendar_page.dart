@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mbank_test_calendar/presentation/bloc/calendar_event_bloc.dart';
+import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/events_list_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/shimmer_loading_widget.dart';
@@ -49,7 +49,7 @@ class _CalendarPageState extends State<CalendarPage>
     });
 
     context.read<CalendarEventBloc>().add(
-      CalendarEventEvent.getRangeSelectedEvents(selectedDay, null),
+      CalendarEventEvent.getEvents(date: selectedDay),
     );
   }
 
@@ -71,7 +71,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   @override
   Widget build(BuildContext context) {
-    final calendarHeight = MediaQuery.of(context).size.height * 0.43;
+    final calendarHeight = MediaQuery.of(context).size.height * 0.45;
 
     return Scaffold(
       body: SafeArea(
