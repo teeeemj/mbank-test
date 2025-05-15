@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbank_test_calendar/presentation/bloc/calendar_event_bloc.dart';
+import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_widget.dart';
+import 'package:mbank_test_calendar/presentation/widgets/calendar/events_list_widget.dart';
+import 'package:mbank_test_calendar/presentation/widgets/calendar/shimmer_loading_widget.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -36,9 +39,39 @@ class _CalendarPageState extends State<CalendarPage>
     super.dispose();
   }
 
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = focusedDay;
+      _rangeStart = null;
+      _rangeEnd = null;
+      _rangeSelectionMode = RangeSelectionMode.toggledOn;
+    });
+
+    context.read<CalendarEventBloc>().add(
+      CalendarEventEvent.getRangeSelectedEvents(selectedDay, null),
+    );
+  }
+
+  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = focusedDay;
+      _focusedDay = focusedDay;
+      _rangeStart = start;
+      _rangeEnd = end;
+      _rangeSelectionMode = RangeSelectionMode.toggledOn;
+    });
+
+    if (start != null) {
+      context.read<CalendarEventBloc>().add(
+        CalendarEventEvent.getRangeSelectedEvents(start, end),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final calendarHeight = 350.0;
+    final calendarHeight = MediaQuery.of(context).size.height * 0.43;
 
     return Scaffold(
       body: SafeArea(
@@ -58,63 +91,14 @@ class _CalendarPageState extends State<CalendarPage>
                 stretch: true,
                 backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).scaffoldBackgroundColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: TableCalendar(
-                      availableGestures: AvailableGestures.none,
-                      firstDay: DateTime.utc(2020, 1, 1),
-                      lastDay: DateTime.utc(2030, 12, 31),
-                      focusedDay: _focusedDay,
-                      selectedDayPredicate:
-                          (day) => isSameDay(_selectedDay, day),
-                      rangeStartDay: _rangeStart,
-                      rangeEndDay: _rangeEnd,
-                      rangeSelectionMode: _rangeSelectionMode,
-                      onDaySelected: (selectedDay, focusedDay) {
-                        setState(() {
-                          _selectedDay = selectedDay;
-                          _focusedDay = focusedDay;
-                          _rangeStart = null;
-                          _rangeEnd = null;
-                          _rangeSelectionMode = RangeSelectionMode.enforced;
-                        });
-
-                        context.read<CalendarEventBloc>().add(
-                          CalendarEventEvent.getRangeSelectedEvents(
-                            selectedDay,
-                            null,
-                          ),
-                        );
-                      },
-                      onRangeSelected: (start, end, focusedDay) {
-                        setState(() {
-                          _selectedDay = focusedDay;
-                          _focusedDay = focusedDay;
-                          _rangeStart = start;
-                          _rangeEnd = end;
-                          _rangeSelectionMode = RangeSelectionMode.toggledOn;
-                        });
-
-                        if (start != null) {
-                          context.read<CalendarEventBloc>().add(
-                            CalendarEventEvent.getRangeSelectedEvents(
-                              start,
-                              end,
-                            ),
-                          );
-                        }
-                      },
-                    ),
+                  background: CalendarWidget(
+                    focusedDay: _focusedDay,
+                    selectedDay: _selectedDay,
+                    rangeStart: _rangeStart,
+                    rangeEnd: _rangeEnd,
+                    rangeSelectionMode: _rangeSelectionMode,
+                    onDaySelected: _onDaySelected,
+                    onRangeSelected: _onRangeSelected,
                   ),
                 ),
               ),
@@ -136,15 +120,15 @@ class _CalendarPageState extends State<CalendarPage>
                             ),
                           ),
                       loading:
-                          () => const SliverToBoxAdapter(
+                          () => SliverToBoxAdapter(
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: CircularProgressIndicator(),
+                                padding: const EdgeInsets.all(16.0),
+                                child: ShimmerLoadingWidget(),
                               ),
                             ),
                           ),
-                      fetched: (events) => _buildEventsList(events),
+                      fetched: (events) => EventsListWidget(events: events),
                       error:
                           (message) => SliverToBoxAdapter(
                             child: Center(
@@ -177,40 +161,6 @@ class _CalendarPageState extends State<CalendarPage>
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildEventsList(List<dynamic> events) {
-    if (events.isEmpty) {
-      return const SliverToBoxAdapter(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('Нет никаких событий'),
-          ),
-        ),
-      );
-    }
-
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        final event = events[index];
-        return Card(
-          margin: const EdgeInsets.only(bottom: 12),
-          child: ListTile(
-            title: Text(event.eventName),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Date: ${event.date.day}/${event.date.month}/${event.date.year}',
-                ),
-                Text(event.description),
-              ],
-            ),
-          ),
-        );
-      }, childCount: events.length),
     );
   }
 }

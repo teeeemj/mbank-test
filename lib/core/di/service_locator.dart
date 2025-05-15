@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mbank_test_calendar/core/error/error_handler.dart';
+import 'package:mbank_test_calendar/core/network/dio_config.dart';
 import 'package:mbank_test_calendar/presentation/bloc/calendar_event_bloc.dart';
 import '../../data/datasources/event_remote_data_source.dart';
 import '../../data/repositories/event_repository_impl.dart';
@@ -30,23 +30,5 @@ Future<void> init() async {
   );
 
   // External
-  sl.registerLazySingleton(() {
-    final dio = Dio(
-      BaseOptions(
-        baseUrl: 'https://test-task-app-alpha.vercel.app',
-        connectTimeout: const Duration(seconds: 5),
-        receiveTimeout: const Duration(seconds: 3),
-      ),
-    );
-    dio.interceptors.add(
-      LogInterceptor(
-        request: true,
-        requestHeader: true,
-        requestBody: true,
-        responseHeader: true,
-        responseBody: true,
-      ),
-    );
-    return dio;
-  });
+  sl.registerLazySingleton(() => DioConfig.create());
 }

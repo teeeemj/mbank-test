@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:mbank_test_calendar/core/utils/date_formatter.dart';
 import 'package:mbank_test_calendar/data/models/event_resp_model.dart';
 import 'package:mbank_test_calendar/core/error/failures.dart';
 
@@ -20,14 +21,12 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
     DateTime? endDate,
   }) async {
     try {
-      String formatDate(DateTime date) {
-        return '${date.day.toString().padLeft(2, '0')}-${date.month.toString().padLeft(2, '0')}-${date.year}';
-      }
-
-      Map<String, dynamic> queryParams = {'start_date': formatDate(startDate)};
+      Map<String, dynamic> queryParams = {
+        'start_date': DateFormatter.formatDate(startDate),
+      };
 
       if (endDate != null) {
-        queryParams['end_date'] = formatDate(endDate);
+        queryParams['end_date'] = DateFormatter.formatDate(endDate);
       }
       final response = await dio.get(
         '/api/test-task',
