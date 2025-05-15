@@ -24,7 +24,9 @@ class GetEvents implements UseCase<List<Event>, EventParams> {
     if (params.endDate != null) {
       final diffBtwDays = params.endDate!.difference(params.startDate).inDays;
       if (diffBtwDays < 7) {
-        return Left(InvalidDateRangeFailure('Range must be at least 7 days'));
+        return Left(
+          InvalidDateRangeFailure('Диапазон должен быть не менее 7 дней'),
+        );
       }
     }
     return repository.getEvents(

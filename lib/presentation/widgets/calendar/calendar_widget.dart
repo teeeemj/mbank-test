@@ -7,8 +7,8 @@ class CalendarWidget extends StatefulWidget {
   final DateTime? rangeStart;
   final DateTime? rangeEnd;
   final RangeSelectionMode rangeSelectionMode;
-  final Function(DateTime, DateTime) onDaySelected;
-  final Function(DateTime?, DateTime?, DateTime) onRangeSelected;
+  final Function(DateTime, DateTime)? onDaySelected;
+  final Function(DateTime?, DateTime?, DateTime)? onRangeSelected;
 
   const CalendarWidget({
     super.key,
@@ -17,8 +17,8 @@ class CalendarWidget extends StatefulWidget {
     required this.rangeStart,
     required this.rangeEnd,
     required this.rangeSelectionMode,
-    required this.onDaySelected,
-    required this.onRangeSelected,
+    this.onDaySelected,
+    this.onRangeSelected,
   });
 
   @override
@@ -30,7 +30,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Colors.grey.shade100,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),

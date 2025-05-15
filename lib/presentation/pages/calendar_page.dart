@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
+import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_appbar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/events_list_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/shimmer_loading_widget.dart';
@@ -21,7 +20,7 @@ class _CalendarPageState extends State<CalendarPage>
   DateTime _selectedDay = DateTime.now();
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
+  bool _isRangeSelectionMode = false;
   late ScrollController _scrollController;
 
   @override
@@ -29,7 +28,7 @@ class _CalendarPageState extends State<CalendarPage>
     super.initState();
     _scrollController = ScrollController();
     context.read<CalendarEventBloc>().add(
-      CalendarEventEvent.getRangeSelectedEvents(_selectedDay, null),
+      CalendarEventEvent.getEvents(date: _selectedDay),
     );
   }
 
@@ -45,7 +44,6 @@ class _CalendarPageState extends State<CalendarPage>
       _focusedDay = focusedDay;
       _rangeStart = null;
       _rangeEnd = null;
-      _rangeSelectionMode = RangeSelectionMode.toggledOn;
     });
 
     context.read<CalendarEventBloc>().add(
@@ -53,18 +51,16 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
+  void _onSelectionModeChanged(Set<bool> selection) {
     setState(() {
-      _selectedDay = focusedDay;
-      _focusedDay = focusedDay;
-      _rangeStart = start;
-      _rangeEnd = end;
-      _rangeSelectionMode = RangeSelectionMode.toggledOn;
+      _isRangeSelectionMode = selection.first;
+      _rangeStart = null;
+      _rangeEnd = null;
     });
 
-    if (start != null) {
+    if (!_isRangeSelectionMode) {
       context.read<CalendarEventBloc>().add(
-        CalendarEventEvent.getRangeSelectedEvents(start, end),
+        CalendarEventEvent.getEvents(date: _selectedDay),
       );
     }
   }
@@ -74,6 +70,10 @@ class _CalendarPageState extends State<CalendarPage>
     final calendarHeight = MediaQuery.of(context).size.height * 0.45;
 
     return Scaffold(
+      appBar: CalendarAppBarWidget(
+        isRangeSelectionMode: _isRangeSelectionMode,
+        onSelectionChanged: _onSelectionModeChanged,
+      ),
       body: SafeArea(
         bottom: false,
         child: NotificationListener<ScrollNotification>(
@@ -89,16 +89,80 @@ class _CalendarPageState extends State<CalendarPage>
                 floating: true,
                 snap: false,
                 stretch: true,
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                backgroundColor: Colors.grey.shade100,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: CalendarWidget(
-                    focusedDay: _focusedDay,
-                    selectedDay: _selectedDay,
-                    rangeStart: _rangeStart,
-                    rangeEnd: _rangeEnd,
-                    rangeSelectionMode: _rangeSelectionMode,
-                    onDaySelected: _onDaySelected,
-                    onRangeSelected: _onRangeSelected,
+                  background: Stack(
+                    children: [
+                      CalendarWidget(
+                        focusedDay: _focusedDay,
+                        selectedDay: _selectedDay,
+                        rangeStart: _rangeStart,
+                        rangeEnd: _rangeEnd,
+                        rangeSelectionMode:
+                            _isRangeSelectionMode
+                                ? RangeSelectionMode.toggledOn
+                                : RangeSelectionMode.toggledOff,
+                        onDaySelected:
+                            _isRangeSelectionMode ? null : _onDaySelected,
+                        onRangeSelected:
+                            _isRangeSelectionMode
+                                ? (start, end, focused) {
+                                  if (start != null && end != null) {
+                                    setState(() {
+                                      _selectedDay = focused;
+                                      _focusedDay = focused;
+                                      _rangeStart = start;
+                                      _rangeEnd = end;
+                                    });
+
+                                    context.read<CalendarEventBloc>().add(
+                                      CalendarEventEvent.getRangeSelectedEvents(
+                                        start,
+                                        end,
+                                      ),
+                                    );
+                                  } else if (start != null) {
+                                    setState(() {
+                                      _selectedDay = focused;
+                                      _focusedDay = focused;
+                                      _rangeStart = start;
+                                      _rangeEnd = null;
+                                    });
+
+                                    context.read<CalendarEventBloc>().add(
+                                      CalendarEventEvent.getEvents(date: start),
+                                    );
+                                  }
+                                }
+                                : null,
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16.0,
+                          ),
+                          color: Colors.grey.shade100,
+                          child: Text(
+                            _isRangeSelectionMode
+                                ? _rangeStart != null && _rangeEnd != null
+                                    ? 'Выбран диапазон дат'
+                                    : _rangeStart != null
+                                    ? 'Выберите вторую дату диапазона'
+                                    : 'Выберите первую дату диапазона'
+                                : 'Режим выбора одной даты',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -108,7 +172,6 @@ class _CalendarPageState extends State<CalendarPage>
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 sliver: BlocBuilder<CalendarEventBloc, CalendarEventState>(
                   builder: (context, state) {
-                    log(state.toString());
                     return state.when(
                       initial:
                           () => const SliverToBoxAdapter(

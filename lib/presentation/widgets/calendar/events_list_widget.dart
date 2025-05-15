@@ -29,7 +29,7 @@ class EventsListWidget extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Date: ${DateFormat('dd.MM.yyyy').format(event.date)}'),
+                Text('When: ${DateFormat('dd.MM.yyyy').format(event.date)}'),
                 Text(event.description),
               ],
             ),
