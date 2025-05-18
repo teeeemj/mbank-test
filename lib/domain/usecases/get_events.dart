@@ -1,17 +1,35 @@
 import 'package:dartz/dartz.dart';
+import 'package:mbank_test_calendar/core/usecases/usecase.dart';
 import 'package:mbank_test_calendar/domain/entities/event.dart';
 import 'package:mbank_test_calendar/core/error/failures.dart';
 import 'package:mbank_test_calendar/domain/repositories/event_repository.dart';
-
-abstract class UseCase<Type, Params> {
-  Future<Either<Failure, Type>> call(Params params);
-}
 
 class EventParams {
   final DateTime startDate;
   final DateTime? endDate;
 
   EventParams({required this.startDate, this.endDate});
+
+  Either<Failure, bool> validate() {
+    if (endDate != null) {
+      if (endDate!.isBefore(startDate)) {
+        return const Left(
+          InvalidDateRangeFailure(
+            'Конечная дата не может быть раньше начальной',
+          ),
+        );
+      }
+
+      final diffBtwDays = endDate!.difference(startDate).inDays;
+      if (diffBtwDays < 7) {
+        return const Left(
+          InvalidDateRangeFailure('Диапазон должен быть не менее 7 дней'),
+        );
+      }
+    }
+
+    return const Right(true);
+  }
 }
 
 class GetEvents implements UseCase<List<Event>, EventParams> {
@@ -21,14 +39,14 @@ class GetEvents implements UseCase<List<Event>, EventParams> {
 
   @override
   Future<Either<Failure, List<Event>>> call(EventParams params) async {
-    if (params.endDate != null) {
-      final diffBtwDays = params.endDate!.difference(params.startDate).inDays;
-      if (diffBtwDays < 7) {
-        return Left(
-          InvalidDateRangeFailure('Диапазон должен быть не менее 7 дней'),
-        );
-      }
+    final validationResult = params.validate();
+    if (validationResult.isLeft()) {
+      return validationResult.fold(
+        (failure) => Left(failure),
+        (_) => throw UnimplementedError(),
+      );
     }
+
     return repository.getEvents(
       startDate: params.startDate,
       endDate: params.endDate,
