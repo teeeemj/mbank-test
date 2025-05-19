@@ -22,17 +22,23 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
     );
   }
 
-  Future<void> _onGetEvents(
-    _GetEvents event,
+  Future<void> _fetchEvents(
+    EventParams params,
     Emitter<CalendarEventState> emit,
   ) async {
     emit(const CalendarEventState.loading());
-    final params = EventParams(startDate: event.date);
     final result = await getEvents(params);
     result.fold(
       (failure) => emit(CalendarEventState.error(failure.message)),
       (events) => emit(CalendarEventState.fetched(events)),
     );
+  }
+
+  Future<void> _onGetEvents(
+    _GetEvents event,
+    Emitter<CalendarEventState> emit,
+  ) async {
+    await _fetchEvents(EventParams(startDate: event.date), emit);
   }
 
   Future<void> _onGetRangeSelectedEvents(
@@ -41,12 +47,9 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
   ) async {
     _startDate = event.startDate;
     _endDate = event.endDate;
-    emit(const CalendarEventState.loading());
-    final params = EventParams(startDate: _startDate, endDate: _endDate);
-    final result = await getEvents(params);
-    result.fold(
-      (failure) => emit(CalendarEventState.error(failure.message)),
-      (events) => emit(CalendarEventState.fetched(events)),
+    await _fetchEvents(
+      EventParams(startDate: _startDate, endDate: _endDate),
+      emit,
     );
   }
 }

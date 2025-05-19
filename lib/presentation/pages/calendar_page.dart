@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
+import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_appbar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_widget.dart';
@@ -51,9 +54,9 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  void _onSelectionModeChanged(Set<bool> selection) {
+  void _onSelectionModeChanged(bool isRangeSelectionMode) {
     setState(() {
-      _isRangeSelectionMode = selection.first;
+      _isRangeSelectionMode = isRangeSelectionMode;
       _rangeStart = null;
       _rangeEnd = null;
     });
@@ -72,7 +75,7 @@ class _CalendarPageState extends State<CalendarPage>
     return Scaffold(
       appBar: CalendarAppBarWidget(
         isRangeSelectionMode: _isRangeSelectionMode,
-        onSelectionChanged: _onSelectionModeChanged,
+        onSelectionChanged: (value) => _onSelectionModeChanged(value.first),
       ),
       body: SafeArea(
         bottom: false,
@@ -89,7 +92,7 @@ class _CalendarPageState extends State<CalendarPage>
                 floating: true,
                 snap: false,
                 stretch: true,
-                backgroundColor: Colors.grey.shade100,
+                backgroundColor: context.theme.scaffoldBackgroundColor,
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
@@ -141,23 +144,22 @@ class _CalendarPageState extends State<CalendarPage>
                         right: 0,
                         bottom: 0,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 8.0,
-                            horizontal: 16.0,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 8.0.h,
+                            horizontal: 16.0.w,
                           ),
-                          color: Colors.grey.shade100,
+                          color: context.theme.scaffoldBackgroundColor,
                           child: Text(
                             _isRangeSelectionMode
                                 ? _rangeStart != null && _rangeEnd != null
-                                    ? 'Выбран диапазон дат'
+                                    ? AppStrings.rangeMode
                                     : _rangeStart != null
-                                    ? 'Выберите вторую дату диапазона'
-                                    : 'Выберите первую дату диапазона'
-                                : 'Режим выбора одной даты',
+                                    ? AppStrings.selectSecondDate
+                                    : AppStrings.selectFirstDate
+                                : AppStrings.oneDateMode,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey.shade600,
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: context.theme.primaryColor,
                             ),
                           ),
                         ),
@@ -166,19 +168,19 @@ class _CalendarPageState extends State<CalendarPage>
                   ),
                 ),
               ),
-              SliverToBoxAdapter(child: const SizedBox(height: 16)),
+              SliverToBoxAdapter(child: SizedBox(height: 16.h)),
 
               SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 sliver: BlocBuilder<CalendarEventBloc, CalendarEventState>(
                   builder: (context, state) {
                     return state.when(
                       initial:
-                          () => const SliverToBoxAdapter(
+                          () => SliverToBoxAdapter(
                             child: Center(
                               child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: Text('Select a date range'),
+                                padding: EdgeInsets.all(16.0.h),
+                                child: Text(AppStrings.selectDateRange),
                               ),
                             ),
                           ),
@@ -186,7 +188,7 @@ class _CalendarPageState extends State<CalendarPage>
                           () => SliverToBoxAdapter(
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0.h),
                                 child: ShimmerLoadingWidget(),
                               ),
                             ),
@@ -196,13 +198,17 @@ class _CalendarPageState extends State<CalendarPage>
                           (message) => SliverToBoxAdapter(
                             child: Center(
                               child: Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: EdgeInsets.all(16.0.h),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       message,
-                                      style: const TextStyle(color: Colors.red),
+                                      style: context.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color:
+                                                context.theme.colorScheme.error,
+                                          ),
                                       textAlign: TextAlign.center,
                                     ),
                                   ],
@@ -217,7 +223,7 @@ class _CalendarPageState extends State<CalendarPage>
 
               SliverToBoxAdapter(
                 child: SizedBox(
-                  height: MediaQuery.of(context).padding.bottom + 80,
+                  height: MediaQuery.of(context).padding.bottom + 80.h,
                 ),
               ),
             ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 
 class EventsListWidget extends StatelessWidget {
   final List<dynamic> events;
@@ -9,11 +11,11 @@ class EventsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (events.isEmpty) {
-      return const SliverToBoxAdapter(
+      return SliverToBoxAdapter(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text('Нет никаких событий'),
+            padding: EdgeInsets.all(16.0.h),
+            child: Text(AppStrings.noEvents),
           ),
         ),
       );
@@ -23,13 +25,15 @@ class EventsListWidget extends StatelessWidget {
       delegate: SliverChildBuilderDelegate((context, index) {
         final event = events[index];
         return Card(
-          margin: const EdgeInsets.only(bottom: 12),
+          margin: EdgeInsets.only(bottom: 12.h),
           child: ListTile(
             title: Text(event.eventName),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('When: ${DateFormat('dd.MM.yyyy').format(event.date)}'),
+                Text(
+                  '${AppStrings.when} ${DateFormat('dd.MM.yyyy').format(event.date)}',
+                ),
                 Text(event.description),
               ],
             ),
