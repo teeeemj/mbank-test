@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbank_test_calendar/core/constants/app_strings.dart';
+import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 
 class CalendarAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -15,10 +17,12 @@ class CalendarAppBarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text(AppStrings.calendar, style: TextStyle(fontSize: 18)),
+      backgroundColor: context.theme.secondaryHeaderColor,
+      centerTitle: false,
+      title: Text(AppStrings.calendar, style: context.textTheme.titleMedium),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 16.0),
+          padding: EdgeInsets.only(right: 16.0.w),
           child: SegmentedButton<bool>(
             segments: const [
               ButtonSegment<bool>(

@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:mbank_test_calendar/core/error/error_handler.dart';
+import 'package:mbank_test_calendar/core/local_storage/storage.dart';
 import 'package:mbank_test_calendar/core/network/dio_config.dart';
+import 'package:mbank_test_calendar/core/theme/bloc/theme_bloc.dart';
 import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import '../../data/datasources/remote/event_remote_data_source.dart';
 import '../../data/repositories/event_repository_impl.dart';
@@ -10,6 +12,9 @@ import '../../domain/usecases/get_events.dart';
 final GetIt sl = GetIt.instance;
 
 Future<void> init() async {
+  final storage = Storage();
+  await storage.initialize();
+  sl.registerLazySingleton<Storage>(() => storage);
   await _initCore();
   await _initExternals();
   await _initDataLayer();
@@ -50,4 +55,5 @@ Future<void> _initDomainLayer() async {
 Future<void> _initPresentationLayer() async {
   // blocs
   sl.registerFactory(() => CalendarEventBloc(getEvents: sl()));
+  sl.registerFactory(() => ThemeBloc()..add(const ThemeEvent.get()));
 }

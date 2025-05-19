@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarWidget extends StatefulWidget {
@@ -30,7 +32,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: context.theme.scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -41,6 +43,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         ],
       ),
       child: TableCalendar(
+        daysOfWeekHeight: 24.h,
         availableGestures: AvailableGestures.horizontalSwipe,
         calendarFormat: CalendarFormat.month,
         firstDay: DateTime.utc(2020, 1, 1),
