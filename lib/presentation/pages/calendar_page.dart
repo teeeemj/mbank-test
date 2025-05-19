@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_appbar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_widget.dart';
@@ -51,9 +52,9 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  void _onSelectionModeChanged(Set<bool> selection) {
+  void _onSelectionModeChanged(bool isRangeSelectionMode) {
     setState(() {
-      _isRangeSelectionMode = selection.first;
+      _isRangeSelectionMode = isRangeSelectionMode;
       _rangeStart = null;
       _rangeEnd = null;
     });
@@ -72,7 +73,7 @@ class _CalendarPageState extends State<CalendarPage>
     return Scaffold(
       appBar: CalendarAppBarWidget(
         isRangeSelectionMode: _isRangeSelectionMode,
-        onSelectionChanged: _onSelectionModeChanged,
+        onSelectionChanged: (value) => _onSelectionModeChanged(value.first),
       ),
       body: SafeArea(
         bottom: false,
@@ -178,7 +179,7 @@ class _CalendarPageState extends State<CalendarPage>
                             child: Center(
                               child: Padding(
                                 padding: EdgeInsets.all(16.0),
-                                child: Text('Select a date range'),
+                                child: Text(AppStrings.selectDateRange),
                               ),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/utils/date_formatter.dart';
 import 'package:mbank_test_calendar/data/models/event_resp_model.dart';
 import 'package:mbank_test_calendar/core/error/failures.dart';
@@ -30,7 +31,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
     } on DioException catch (e) {
       throw ServerFailure('DioException: ${e.message}');
     } catch (e) {
-      throw ServerFailure('An unexpected error occurred: $e');
+      throw ServerFailure('${AppStrings.unexpectedError} $e');
     }
   }
 
@@ -51,7 +52,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
           .map((json) => EventRespModel.fromJson(json))
           .toList();
     } else {
-      throw ServerFailure('Invalid response format');
+      throw ServerFailure(AppStrings.invalidFormat);
     }
   }
 }

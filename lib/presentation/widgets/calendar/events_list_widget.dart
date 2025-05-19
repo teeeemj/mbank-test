@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 
 class EventsListWidget extends StatelessWidget {
   final List<dynamic> events;
@@ -13,7 +14,7 @@ class EventsListWidget extends StatelessWidget {
         child: Center(
           child: Padding(
             padding: EdgeInsets.all(16.0),
-            child: Text('Нет никаких событий'),
+            child: Text(AppStrings.noEvents),
           ),
         ),
       );
@@ -29,7 +30,9 @@ class EventsListWidget extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('When: ${DateFormat('dd.MM.yyyy').format(event.date)}'),
+                Text(
+                  '${AppStrings.when} ${DateFormat('dd.MM.yyyy').format(event.date)}',
+                ),
                 Text(event.description),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 
 class CalendarAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -14,7 +15,7 @@ class CalendarAppBarWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Календарь', style: TextStyle(fontSize: 18)),
+      title: const Text(AppStrings.calendar, style: TextStyle(fontSize: 18)),
       actions: [
         Padding(
           padding: const EdgeInsets.only(right: 16.0),
@@ -22,12 +23,12 @@ class CalendarAppBarWidget extends StatelessWidget
             segments: const [
               ButtonSegment<bool>(
                 value: false,
-                label: Text('Одна дата'),
+                label: Text(AppStrings.oneDate),
                 icon: Icon(Icons.calendar_today),
               ),
               ButtonSegment<bool>(
                 value: true,
-                label: Text('Диапазон'),
+                label: Text(AppStrings.range),
                 icon: Icon(Icons.date_range),
               ),
             ],

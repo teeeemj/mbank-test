@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/usecases/usecase.dart';
 import 'package:mbank_test_calendar/domain/entities/event.dart';
 import 'package:mbank_test_calendar/core/error/failures.dart';
@@ -15,7 +16,7 @@ class EventParams {
       final diffBtwDays = endDate!.difference(startDate).inDays;
       if (diffBtwDays < 7) {
         return const Left(
-          InvalidDateRangeFailure('Диапазон должен быть не менее 7 дней'),
+          InvalidDateRangeFailure(AppStrings.rangeNotMoreThan7Days),
         );
       }
     }
