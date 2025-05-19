@@ -12,14 +12,6 @@ class EventParams {
 
   Either<Failure, bool> validate() {
     if (endDate != null) {
-      if (endDate!.isBefore(startDate)) {
-        return const Left(
-          InvalidDateRangeFailure(
-            'Конечная дата не может быть раньше начальной',
-          ),
-        );
-      }
-
       final diffBtwDays = endDate!.difference(startDate).inDays;
       if (diffBtwDays < 7) {
         return const Left(
