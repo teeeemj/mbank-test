@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 
@@ -22,7 +21,7 @@ class CalendarAppBarWidget extends StatelessWidget
       title: Text(AppStrings.calendar, style: context.textTheme.titleMedium),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 16.0.w),
+          padding: const EdgeInsets.only(right: 16.0),
           child: SegmentedButton<bool>(
             segments: const [
               ButtonSegment<bool>(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mbank_test_calendar/core/theme/app_colors.dart';
 
 const String? fontFamily = null;
@@ -15,7 +14,7 @@ class AppTheme {
 
   static ThemeData get lightTheme {
     return ThemeData.light().copyWith(
-      scaffoldBackgroundColor: Color(0xffE6ECFC),
+      scaffoldBackgroundColor: const Color(0xffE6ECFC),
 
       canvasColor: Colors.white,
       primaryColorDark: Colors.black,
@@ -28,85 +27,79 @@ class AppTheme {
       shadowColor: Colors.grey.shade300,
       dividerTheme: DividerThemeData(
         color: Colors.black.withAlpha(13),
-        space: 16.h,
+        space: 16,
       ),
       secondaryHeaderColor: AppColors.lightBlue,
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontFamily: fontFamily,
-          fontSize: 40.sp,
+          fontSize: 40,
           fontWeight: FontWeight.w700,
         ),
-        displayMedium: const TextStyle(
-          fontFamily: fontFamily,
-          color: AppColors.text,
-        ),
+        displayMedium: TextStyle(fontFamily: fontFamily, color: AppColors.text),
         displaySmall: TextStyle(
           fontFamily: fontFamily,
-          fontSize: 16.sp,
+          fontSize: 16,
           color: AppColors.lightGrey,
         ),
         titleLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 24.sp,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
         ),
         titleMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 14.sp,
+          fontSize: 14,
           height: 21 / 14,
           fontWeight: FontWeight.w600,
         ),
         titleSmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 11.sp,
+          fontSize: 11,
         ),
         bodyLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 20.sp,
+          fontSize: 20,
           fontWeight: FontWeight.w700,
         ),
         bodyMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 16.sp,
+          fontSize: 16,
           fontWeight: FontWeight.w500,
           height: 19.36 / 16,
         ),
         bodySmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 12.sp,
+          fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
         headlineLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 20.sp,
+          fontSize: 20,
           fontWeight: FontWeight.w500,
         ),
-        headlineMedium: const TextStyle(
+        headlineMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
         ),
-        headlineSmall: const TextStyle(
-          fontFamily: fontFamily,
-          color: AppColors.text,
-        ),
+        headlineSmall: TextStyle(fontFamily: fontFamily, color: AppColors.text),
         labelMedium: TextStyle(
           fontFamily: fontFamily,
           color: Colors.black,
-          fontSize: 16.sp,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
         labelSmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 12.sp,
+          fontSize: 12,
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -115,7 +108,7 @@ class AppTheme {
           foregroundColor: WidgetStateProperty.all(Colors.white),
           elevation: WidgetStateProperty.all(0),
           shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           ),
           textStyle: WidgetStateProperty.all(
             const TextStyle(
@@ -158,28 +151,31 @@ class AppTheme {
         ),
         prefixIconColor: AppColors.light.inputIconColor,
         suffixIconColor: AppColors.light.inputIconColor,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: AppColors.lightGrey,
-          fontSize: 14.sp,
+          fontSize: 14,
           fontFamily: fontFamily,
           fontWeight: FontWeight.w500,
           height: 21 / 14,
         ),
-        floatingLabelStyle: TextStyle(
+        floatingLabelStyle: const TextStyle(
           color: AppColors.blue,
-          fontSize: 14.sp,
+          fontSize: 14,
           fontFamily: fontFamily,
           fontWeight: FontWeight.w500,
           height: 21 / 14,
         ),
         hintStyle: TextStyle(
           color: AppColors.light.hintColor,
-          fontSize: 16.sp,
+          fontSize: 16,
           letterSpacing: -0.4,
           fontFamily: fontFamily,
           fontWeight: FontWeight.w400,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 18.w),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 18,
+        ),
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor: WidgetStateProperty.all(AppColors.blue),
@@ -206,7 +202,7 @@ class AppTheme {
       dividerColor: Colors.white.withAlpha(13),
       dividerTheme: DividerThemeData(
         color: Colors.white.withAlpha(13),
-        space: 16.h,
+        space: 16,
       ),
       primaryColorDark: Colors.white,
       primaryColorLight: AppColors.blueDark,
@@ -214,61 +210,55 @@ class AppTheme {
       primaryColor: AppColors.blueDark,
       highlightColor: AppColors.dark.systemGrey,
       secondaryHeaderColor: AppColors.cardBgDark,
-      textTheme: TextTheme(
-        displayLarge: const TextStyle(
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        displayMedium: const TextStyle(
+        displayMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        displaySmall: const TextStyle(
+        displaySmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
         titleLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.text,
-          fontSize: 24.sp,
+          fontSize: 24,
           fontWeight: FontWeight.w700,
         ),
-        titleMedium: const TextStyle(
+        titleMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        titleSmall: const TextStyle(
+        titleSmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        bodyLarge: const TextStyle(
+        bodyLarge: TextStyle(fontFamily: fontFamily, color: AppColors.blackSec),
+        bodyMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blackSec,
         ),
-        bodyMedium: const TextStyle(
-          fontFamily: fontFamily,
-          color: AppColors.blackSec,
-        ),
-        bodySmall: const TextStyle(
-          fontFamily: fontFamily,
-          color: AppColors.blackSec,
-        ),
-        headlineLarge: const TextStyle(
+        bodySmall: TextStyle(fontFamily: fontFamily, color: AppColors.blackSec),
+        headlineLarge: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        headlineMedium: const TextStyle(
+        headlineMedium: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
-        headlineSmall: const TextStyle(
+        headlineSmall: TextStyle(
           fontFamily: fontFamily,
           color: AppColors.blueDark,
         ),
         labelMedium: TextStyle(
           fontFamily: fontFamily,
           color: Colors.black,
-          fontSize: 16.sp,
+          fontSize: 16,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -278,7 +268,7 @@ class AppTheme {
           foregroundColor: WidgetStateProperty.all(Colors.white),
           elevation: WidgetStateProperty.all(0),
           shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
           ),
           textStyle: WidgetStateProperty.all(
             const TextStyle(
@@ -317,27 +307,30 @@ class AppTheme {
         fillColor: AppColors.dark.inputBg,
         prefixIconColor: AppColors.light.inputIconColor,
         suffixIconColor: AppColors.light.inputIconColor,
-        labelStyle: TextStyle(
-          color: const Color(0xFF000000),
-          fontSize: 16.sp,
+        labelStyle: const TextStyle(
+          color: Color(0xFF000000),
+          fontSize: 16,
           fontFamily: fontFamily,
           letterSpacing: -0.4,
         ),
         floatingLabelStyle: TextStyle(
           color: AppColors.light.hintColor,
-          fontSize: 16.sp,
+          fontSize: 16,
           fontFamily: fontFamily,
           letterSpacing: -0.4,
         ),
         filled: true,
         hintStyle: TextStyle(
           color: AppColors.light.hintColor,
-          fontSize: 16.sp,
+          fontSize: 16,
           letterSpacing: -0.4,
           fontFamily: fontFamily,
           fontWeight: FontWeight.w400,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 18.w),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 18,
+        ),
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor: WidgetStateProperty.all(AppColors.blue),

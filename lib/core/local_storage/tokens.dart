@@ -15,14 +15,12 @@ class Tokens {
     accessExpiry = null;
   }
 
-  static void save(
-    String accessToken,
-    String? refreshToken,
-    int expiresIn,
-  ) {
+  static void save(String accessToken, String? refreshToken, int expiresIn) {
     access = accessToken;
     final expiry = DateTime.now().add(Duration(seconds: expiresIn));
     accessExpiry = expiry;
-    if (refreshToken != null) Tokens.refresh = refreshToken;
+    if (refreshToken != null) {
+      Tokens.refresh = refreshToken;
+    }
   }
 }
