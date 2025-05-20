@@ -14,7 +14,7 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
   DateTime? _endDate;
 
   CalendarEventBloc({required this.getEvents})
-    : super(CalendarEventState.initial()) {
+    : super(const CalendarEventState.initial()) {
     on<_GetEvents>(_onGetEvents, transformer: droppable());
     on<_GetRangeSelectedEvents>(
       _onGetRangeSelectedEvents,

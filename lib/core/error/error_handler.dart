@@ -22,19 +22,19 @@ class ErrorHandlerImpl implements ErrorHandler {
   Failure _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
-        return ServerFailure('Connection timeout');
+        return const ServerFailure('Connection timeout');
       case DioExceptionType.sendTimeout:
-        return ServerFailure('Send timeout');
+        return const ServerFailure('Send timeout');
       case DioExceptionType.receiveTimeout:
-        return ServerFailure('Receive timeout');
+        return const ServerFailure('Receive timeout');
       case DioExceptionType.badCertificate:
-        return ServerFailure('Bad certificate');
+        return const ServerFailure('Bad certificate');
       case DioExceptionType.badResponse:
         return ServerFailure('Bad response: ${error.response?.statusCode}');
       case DioExceptionType.cancel:
-        return ServerFailure('Request cancelled');
+        return const ServerFailure('Request cancelled');
       case DioExceptionType.connectionError:
-        return ServerFailure('Connection error');
+        return const ServerFailure('Connection error');
       case DioExceptionType.unknown:
         return ServerFailure('Unknown error: ${error.message}');
     }

@@ -52,7 +52,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
           .map((json) => EventRespModel.fromJson(json))
           .toList();
     } else {
-      throw ServerFailure(AppStrings.invalidFormat);
+      throw const ServerFailure(AppStrings.invalidFormat);
     }
   }
 }

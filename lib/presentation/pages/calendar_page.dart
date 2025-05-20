@@ -180,7 +180,7 @@ class _CalendarPageState extends State<CalendarPage>
                             child: Center(
                               child: Padding(
                                 padding: EdgeInsets.all(16.0.h),
-                                child: Text(AppStrings.selectDateRange),
+                                child: const Text(AppStrings.selectDateRange),
                               ),
                             ),
                           ),
@@ -189,7 +189,7 @@ class _CalendarPageState extends State<CalendarPage>
                             child: Center(
                               child: Padding(
                                 padding: EdgeInsets.all(16.0.h),
-                                child: ShimmerLoadingWidget(),
+                                child: const ShimmerLoadingWidget(),
                               ),
                             ),
                           ),

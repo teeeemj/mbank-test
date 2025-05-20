@@ -26,5 +26,11 @@ linter:
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - always_put_control_body_on_new_line
+    - avoid_print
+    - unnecessary_new
+    - unnecessary_this
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
