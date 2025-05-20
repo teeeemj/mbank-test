@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mbank_test_calendar/domain/entities/event.dart';
@@ -14,7 +14,7 @@ class CalendarEventBloc extends Bloc<CalendarEventEvent, CalendarEventState> {
   DateTime? _endDate;
 
   CalendarEventBloc({required this.getEvents})
-    : super(CalendarEventState.initial()) {
+    : super(const CalendarEventState.initial()) {
     on<_GetEvents>(_onGetEvents, transformer: droppable());
     on<_GetRangeSelectedEvents>(
       _onGetRangeSelectedEvents,
