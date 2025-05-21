@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
+import 'package:mbank_test_calendar/domain/entities/event.dart';
 import 'package:mbank_test_calendar/presentation/blocs/calendar_event_bloc/calendar_event_bloc.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_appbar_widget.dart';
 import 'package:mbank_test_calendar/presentation/widgets/calendar/calendar_mode_indicator.dart';
@@ -22,6 +23,7 @@ class _CalendarPageState extends State<CalendarPage>
   late ScrollController _scrollController;
 
   static const double padding16 = 16.0;
+  final emptyList = <Event>[];
 
   @override
   void initState() {
@@ -76,52 +78,30 @@ class _CalendarPageState extends State<CalendarPage>
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: padding16)),
-
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: padding16),
-                sliver: BlocBuilder<CalendarEventBloc, CalendarEventState>(
+                sliver: BlocSelector<
+                  CalendarEventBloc,
+                  CalendarEventState,
+                  CalendarEventState
+                >(
+                  selector: (state) => state,
                   builder: (context, state) {
                     return state.when(
                       initial:
                           () => const SliverToBoxAdapter(
                             child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(padding16),
-                                child: Text(AppStrings.selectDateRange),
-                              ),
+                              child: Text(AppStrings.selectDateRange),
                             ),
                           ),
                       loading:
                           () => const SliverToBoxAdapter(
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(padding16),
-                                child: ShimmerLoadingWidget(),
-                              ),
-                            ),
+                            child: Center(child: ShimmerLoadingWidget()),
                           ),
                       fetched: (events) => EventsListWidget(events: events),
                       error:
                           (message) => SliverToBoxAdapter(
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(padding16),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      message,
-                                      style: context.textTheme.bodyMedium
-                                          ?.copyWith(
-                                            color:
-                                                context.theme.colorScheme.error,
-                                          ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            child: Center(child: Text(message)),
                           ),
                     );
                   },
