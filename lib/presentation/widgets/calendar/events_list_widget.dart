@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbank_test_calendar/core/constants/app_dimensions.dart';
 import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/extensions/date_extension.dart';
 import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
@@ -15,7 +16,7 @@ class EventsListWidget extends StatelessWidget {
       return const SliverToBoxAdapter(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(AppDimensions.spacing16),
             child: Text(AppStrings.noEvents),
           ),
         ),
@@ -28,14 +29,7 @@ class EventsListWidget extends StatelessWidget {
       addAutomaticKeepAlives: true,
       itemBuilder: (context, index) {
         final event = events[index];
-        return RepaintBoundary(
-          child: EventCard(
-            key: ValueKey(
-              '${event.eventName}_${event.date.millisecondsSinceEpoch}',
-            ),
-            event: event,
-          ),
-        );
+        return EventCard(key: ValueKey(event.hashCode), event: event);
       },
     );
   }
@@ -49,18 +43,18 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: AppDimensions.spacing12),
       decoration: BoxDecoration(
         color: context.theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppDimensions.radiusSmall),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(AppDimensions.spacing12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(event.eventName),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppDimensions.spacing4),
             Text('${AppStrings.when} ${event.date.toDisplayFormat()}'),
             Text(event.description),
           ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbank_test_calendar/core/constants/app_dimensions.dart';
 import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -14,13 +15,13 @@ class ShimmerLoadingWidget extends StatelessWidget {
         children: List.generate(
           3,
           (index) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.only(bottom: AppDimensions.spacing12),
             child: Container(
-              height: 100,
+              height: AppDimensions.shimmerCardHeight,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: context.theme.cardColor,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AppDimensions.radiusSmall),
               ),
             ),
           ),

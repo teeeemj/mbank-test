@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mbank_test_calendar/core/constants/app_dimensions.dart';
 import 'package:mbank_test_calendar/core/constants/app_strings.dart';
 import 'package:mbank_test_calendar/core/extensions/theme_extension.dart';
 
@@ -17,7 +18,10 @@ class CalendarModeIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(
+        vertical: AppDimensions.spacing8,
+        horizontal: AppDimensions.spacing16,
+      ),
       color: context.theme.scaffoldBackgroundColor,
       child: Text(
         isRangeSelectionMode
